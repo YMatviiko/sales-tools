@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "brand-style",
+  "title": "BrandStyle",
+  "description": "Optional companion to BrandSpec: text styling, backgrounds and brand imagery. Versioned separately (style_version).",
+  "type": "object",
+  "required": [
+    "style_version"
+  ],
+  "properties": {
+    "style_version": {
+      "enum": [
+        "1.0",
+        "1.1"
+      ],
+      "description": "1.1 adds `design` (additive)."
+    },
+    "text": {
+      "type": "object",
+      "properties": {
+        "heading": {
+          "type": "object",
+          "properties": {
+            "case": {
+              "enum": [
+                "none",
+                "upper"
+              ]
+            },
+            "weight": {
+              "enum": [
+                400,
+                700
+              ]
+            },
+            "letter_spacing": {
+              "type": "number",
+              "minimum": -2,
+              "maximum": 10,
+              "description": "points"
+            }
+          }
+        }
+      }
+    },
+    "backgrounds": {
+      "type": "object",
+      "description": "Layout -> asset id. Overlay keeps text legible over imagery.",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "closing": {
+          "type": "string"
+        },
+        "overlay_opacity": {
+          "type": "number",
+          "minimum": 0.2,
+          "maximum": 0.9
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "role",
+          "mime",
+          "width",
+          "height"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]{1,40}$"
+          },
+          "role": {
+            "enum": [
+              "logo",
+              "hero",
+              "illustration",
+              "photo"
+            ]
+          },
+          "mime": {
+            "enum": [
+              "image/png",
+              "image/jpeg",
+              "image/svg+xml"
+            ]
+          },
+          "width": {
+            "type": "integer"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "source": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string",
+            "description": "path relative to the style file (CLI)"
+          },
+          "content_base64": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "design": {
+      "type": "object",
+      "description": "How the brand lays things out. Measured on their live page when possible; otherwise absent (neutral defaults).",
+      "properties": {
+        "align": {
+          "enum": [
+            "left",
+            "center"
+          ]
+        },
+        "density": {
+          "enum": [
+            "airy",
+            "balanced",
+            "dense"
+          ]
+        },
+        "imagery": {
+          "enum": [
+            "image-led",
+            "balanced",
+            "text-led"
+          ]
+        },
+        "heading_scale": {
+          "enum": [
+            "display",
+            "standard",
+            "compact"
+          ]
+        },
+        "corners": {
+          "enum": [
+            "square",
+            "soft",
+            "pill"
+          ]
+        },
+        "measured": {
+          "type": "object"
+        },
+        "rhythm": {
+          "type": "object",
+          "properties": {
+            "pattern": {
+              "enum": [
+                "alternating",
+                "dark",
+                "light",
+                "mixed"
+              ]
+            },
+            "flip_rate": {
+              "type": "number"
+            },
+            "tones": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "light",
+                  "dark"
+                ]
+              }
+            },
+            "imagery": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "image",
+                  "mixed",
+                  "flat"
+                ]
+              }
+            },
+            "screens": {
+              "type": "integer"
+            },
+            "image_screens": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "system": {
+      "type": "object",
+      "description": "BrandSystem 1.0 measured on the live page; see lib/system.mjs. Values are whitelisted (numbers, hex colours, keywords).",
+      "required": [
+        "system_version"
+      ],
+      "properties": {
+        "system_version": {
+          "const": "1.0"
+        }
+      }
+    },
+    "graphics": {
+      "type": "object",
+      "description": "Graphics language 1.0 measured on the live page (corners per element, gradients, patterns, shadows, graphic section); see lib/graphics.mjs. Values are whitelisted.",
+      "required": [
+        "graphics_version"
+      ],
+      "properties": {
+        "graphics_version": {
+          "const": "1.0"
+        },
+        "corners": {
+          "type": "object",
+          "description": "Corner radius in px per element kind (null = not measured, 9999 = fully round).",
+          "properties": {
+            "button": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 9999
+            },
+            "card": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 9999
+            },
+            "media": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 9999
+            },
+            "input": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 9999
+            },
+            "chip": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 9999
+            }
+          }
+        },
+        "gradient": {
+          "type": "object"
+        },
+        "pattern": {
+          "type": "object"
+        },
+        "shadow": {
+          "enum": [
+            "none",
+            "soft"
+          ]
+        },
+        "section": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "provenance": {
+          "type": "object"
+        },
+        "measured": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

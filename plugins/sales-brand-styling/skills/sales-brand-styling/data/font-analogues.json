@@ -1,0 +1,634 @@
+{
+ "updated": "2026-10-08",
+ "entries": {
+  "sfprodisplay": {
+   "font": "SF Pro Display",
+   "nearest": "Inter",
+   "alternatives": [
+    "Geist",
+    "Roboto"
+   ],
+   "confidence": "high",
+   "reason": "Inter is a screen-first neo-grotesque with optical sizing like SF Pro; Geist is a close modern neutral grotesque; Roboto is more mechanical.",
+   "sources": [
+    "https://fontalternatives.com/fonts-like/sf-pro-display/",
+    "https://www.findfont.co/learn/best-free-san-francisco-sf-pro-font-alternatives"
+   ]
+  },
+  "sfprotext": {
+   "font": "SF Pro Text",
+   "nearest": "Inter",
+   "alternatives": [
+    "Geist",
+    "Roboto"
+   ],
+   "confidence": "high",
+   "reason": "Same family as SF Pro Display; Inter's text-size spacing and open apertures match closely.",
+   "sources": [
+    "https://fontalternatives.com/fonts-like/sf-pro-display/"
+   ]
+  },
+  "sfpro": {
+   "font": "SF Pro",
+   "nearest": "Inter",
+   "alternatives": [
+    "Geist",
+    "Roboto"
+   ],
+   "confidence": "high",
+   "reason": "Generic San Francisco UI face; Inter is the most widely cited near-equivalent, slightly wider letterforms.",
+   "sources": [
+    "https://fontalternatives.com/alternatives/sf-pro-display/"
+   ]
+  },
+  "sfmono": {
+   "font": "SF Mono",
+   "nearest": "JetBrains Mono",
+   "alternatives": [
+    "Source Code Pro",
+    "Fira Code"
+   ],
+   "confidence": "medium",
+   "reason": "Clean neutral monospaces with similar proportions.",
+   "sources": [
+    "https://fontalternatives.com/alternatives/sf-mono/"
+   ]
+  },
+  "spotifycircular": {
+   "font": "Spotify Circular",
+   "nearest": "Plus Jakarta Sans",
+   "alternatives": [
+    "Poppins",
+    "DM Sans"
+   ],
+   "confidence": "medium",
+   "reason": "Circular is a geometric sans with round bowls; none match its proportions exactly.",
+   "sources": [
+    "https://www.learnui.design/blog/circular-similar-fonts.html"
+   ]
+  },
+  "spotifymix": {
+   "font": "Spotify Mix",
+   "nearest": "Plus Jakarta Sans",
+   "alternatives": [
+    "DM Sans",
+    "Poppins"
+   ],
+   "confidence": "low",
+   "reason": "Circular-derived successor; Circular alternatives assumed to apply.",
+   "sources": [
+    "https://www.learnui.design/blog/circular-similar-fonts.html"
+   ]
+  },
+  "airbnbcereal": {
+   "font": "Airbnb Cereal",
+   "nearest": "Plus Jakarta Sans",
+   "alternatives": [
+    "DM Sans",
+    "Manrope"
+   ],
+   "confidence": "low",
+   "reason": "Friendly geometric sans in the Circular/Avenir space; weak evidence.",
+   "sources": [
+    "https://maxibestof.one/typefaces/airbnb-cereal"
+   ]
+  },
+  "twitterchirp": {
+   "font": "Twitter Chirp",
+   "nearest": "Inter",
+   "alternatives": [
+    "DM Sans"
+   ],
+   "confidence": "low",
+   "reason": "Grotesque with softer details; Inter and DM Sans are named as nearest free options.",
+   "sources": [
+    "https://www.whatfontis.com/CF_Chirp.similar"
+   ]
+  },
+  "stripesohne": {
+   "font": "Stripe Sohne",
+   "nearest": "Inter",
+   "alternatives": [
+    "Geist",
+    "Work Sans"
+   ],
+   "confidence": "medium",
+   "reason": "Sohne is a Helvetica/Akzidenz-inspired neo-grotesque; Inter shares its neutral proportions but is less warm.",
+   "sources": [
+    "https://fontalternatives.com/alternatives/sohne/",
+    "https://www.typewolf.com/sohne"
+   ]
+  },
+  "segoeui": {
+   "font": "Segoe UI",
+   "nearest": "Open Sans",
+   "alternatives": [
+    "Noto Sans",
+    "Lato"
+   ],
+   "confidence": "high",
+   "reason": "Humanist sans with open apertures and similar x-height; same designer lineage.",
+   "sources": [
+    "https://similarfont.io/2-google-fonts-similar-to-segoe-ui"
+   ]
+  },
+  "helveticanowdisplay": {
+   "font": "Helvetica Now Display",
+   "nearest": "Inter",
+   "alternatives": [
+    "Arimo",
+    "Roboto"
+   ],
+   "confidence": "medium",
+   "reason": "Inter is a neutral grotesque comparable to Helvetica; Helvetica Now has finer details.",
+   "sources": [
+    "https://fontalternatives.com/alternatives/helvetica-now/"
+   ]
+  },
+  "helveticanowtext": {
+   "font": "Helvetica Now Text",
+   "nearest": "Inter",
+   "alternatives": [
+    "Arimo",
+    "Roboto"
+   ],
+   "confidence": "medium",
+   "reason": "Same as Helvetica Now Display; Arimo matches Helvetica/Arial widths.",
+   "sources": [
+    "https://fontalternatives.com/fonts-like/helvetica-now/"
+   ]
+  },
+  "nikefuturand": {
+   "font": "Nike Futura ND",
+   "nearest": "Jost",
+   "alternatives": [],
+   "confidence": "medium",
+   "reason": "Customised Futura; Jost is the most cited Futura-inspired geometric sans but has no extra-bold condensed cut.",
+   "sources": [
+    "https://www.naomi-maria.com/5-free-alternatives-for-futura-on-google-fonts/"
+   ]
+  },
+  "amazonember": {
+   "font": "Amazon Ember",
+   "nearest": "Nunito Sans",
+   "alternatives": [
+    "Inter",
+    "Lato"
+   ],
+   "confidence": "low",
+   "reason": "Softly rounded terminals and generous x-height; aggregator-level evidence.",
+   "sources": [
+    "https://typetype.org/fonts/ember-similar-fonts/"
+   ]
+  },
+  "netflixsans": {
+   "font": "Netflix Sans",
+   "nearest": "Inter",
+   "alternatives": [
+    "DM Sans"
+   ],
+   "confidence": "low",
+   "reason": "Clean modern sans; generic nearest suggestions only.",
+   "sources": [
+    "https://www.zetafonts.com/collections/similar-to/netflix-sans"
+   ]
+  },
+  "ubermove": {
+   "font": "Uber Move",
+   "nearest": "Inter",
+   "alternatives": [
+    "DM Sans"
+   ],
+   "confidence": "low",
+   "reason": "Neutral grotesque with generous x-height; aggregator-level evidence.",
+   "sources": [
+    "https://www.typewolf.com/uber-move"
+   ]
+  },
+  "slacklarsseit": {
+   "font": "Slack Larsseit",
+   "nearest": "Inter",
+   "alternatives": [
+    "Work Sans"
+   ],
+   "confidence": "low",
+   "reason": "Geometric-grotesque; Larsseit is rounder than Inter.",
+   "sources": [
+    "https://fontalternatives.com/fonts-like/larsseit/"
+   ]
+  },
+  "metaoptimistic": {
+   "font": "Meta Optimistic",
+   "nearest": "Inter",
+   "alternatives": [
+    "DM Sans"
+   ],
+   "confidence": "low",
+   "reason": "Friendly humanist-geometric sans; Optimistic is rounder and warmer.",
+   "sources": [
+    "https://fontsinuse.com/typefaces/180257/optimistic"
+   ]
+  },
+  "canela": {
+   "font": "Canela",
+   "nearest": "Fraunces",
+   "alternatives": [
+    "Spectral"
+   ],
+   "confidence": "low",
+   "reason": "Both are soft, high-contrast display serifs; Fraunces is chunkier and quirkier than Canela.",
+   "sources": [
+    "https://similarfont.io/2-google-fonts-similar-to-canela"
+   ]
+  },
+  "tiempostext": {
+   "font": "Tiempos Text",
+   "nearest": "Lora",
+   "alternatives": [
+    "Source Serif 4",
+    "Literata"
+   ],
+   "confidence": "low",
+   "reason": "Lora is a contemporary editorial text serif with similar warmth but wider, more brushed curves.",
+   "sources": [
+    "https://fontalternatives.com/alternatives/tiempos/"
+   ]
+  },
+  "chronicledisplay": {
+   "font": "Chronicle Display",
+   "nearest": "Playfair Display",
+   "alternatives": [],
+   "confidence": "low",
+   "reason": "Both are high-contrast transitional display serifs; Playfair has a larger x-height and sharper contrast.",
+   "sources": [
+    "https://fontalternatives.com/classifications/serif/"
+   ]
+  },
+  "minionpro": {
+   "font": "Minion Pro",
+   "nearest": "Crimson Text",
+   "alternatives": [
+    "EB Garamond"
+   ],
+   "confidence": "medium",
+   "reason": "Old-style book serif with a similarly classical feel; a little lighter than Minion.",
+   "sources": [
+    "https://frontendresource.com/most-used-fonts-alternative-google-fonts/"
+   ]
+  },
+  "plantin": {
+   "font": "Plantin",
+   "nearest": "Crimson Text",
+   "alternatives": [
+    "Libre Baskerville"
+   ],
+   "confidence": "low",
+   "reason": "Both are sturdy old-style book serifs; Crimson is lighter and finer.",
+   "sources": [
+    "https://frontendresource.com/most-used-fonts-alternative-google-fonts/"
+   ]
+  },
+  "adobegaramond": {
+   "font": "Adobe Garamond",
+   "nearest": "EB Garamond",
+   "alternatives": [
+    "Cormorant Garamond"
+   ],
+   "confidence": "high",
+   "reason": "EB Garamond is a revival of the same Garamont lineage; Cormorant is more delicate.",
+   "sources": [
+    "https://fonts.google.com/specimen/EB+Garamond"
+   ]
+  },
+  "garamondpremierpro": {
+   "font": "Garamond Premier Pro",
+   "nearest": "EB Garamond",
+   "alternatives": [
+    "Cormorant Garamond"
+   ],
+   "confidence": "high",
+   "reason": "Same Garamont-derived lineage; Premier Pro has optical sizes.",
+   "sources": [
+    "https://fonts.google.com/specimen/EB+Garamond"
+   ]
+  },
+  "baskerville": {
+   "font": "Baskerville",
+   "nearest": "Libre Baskerville",
+   "alternatives": [
+    "Libre Caslon Text"
+   ],
+   "confidence": "high",
+   "reason": "Based on the ATF Baskerville; same transitional structure, slightly wider with a larger x-height for web text.",
+   "sources": [
+    "https://fonts.google.com/specimen/Libre+Baskerville"
+   ]
+  },
+  "bodoni": {
+   "font": "Bodoni",
+   "nearest": "Libre Bodoni",
+   "alternatives": [
+    "Bodoni Moda",
+    "Playfair Display"
+   ],
+   "confidence": "high",
+   "reason": "Libre Bodoni is based on ATF Bodoni; Bodoni Moda is a full Bodoni revival.",
+   "sources": [
+    "https://fonts.google.com/specimen/Libre+Bodoni",
+    "https://fonts.google.com/specimen/Bodoni+Moda"
+   ]
+  },
+  "didot": {
+   "font": "Didot",
+   "nearest": "Bodoni Moda",
+   "alternatives": [
+    "Playfair Display"
+   ],
+   "confidence": "medium",
+   "reason": "Didot and Bodoni are both modern serifs with extreme contrast; Bodoni is slightly heavier and more geometric.",
+   "sources": [
+    "https://fonts.google.com/specimen/Bodoni+Moda"
+   ]
+  },
+  "caslon": {
+   "font": "Caslon",
+   "nearest": "Libre Caslon Text",
+   "alternatives": [
+    "EB Garamond"
+   ],
+   "confidence": "medium",
+   "reason": "Libre Caslon Text is a Caslon revival based on ATF Caslon.",
+   "sources": [
+    "https://fonts.google.com/specimen/Libre+Caslon+Text"
+   ]
+  },
+  "gotham": {
+   "font": "Gotham",
+   "nearest": "Montserrat",
+   "alternatives": [
+    "Figtree",
+    "Poppins"
+   ],
+   "confidence": "high",
+   "reason": "Montserrat is the most cited match for Gotham's wide geometric bold capitals; it is wider and differs in letter details.",
+   "sources": [
+    "https://frontendresource.com/most-used-fonts-alternative-google-fonts/",
+    "https://www.learnui.design/blog/proxima-nova-similar-fonts.html"
+   ]
+  },
+  "myriadpro": {
+   "font": "Myriad Pro",
+   "nearest": "Source Sans 3",
+   "alternatives": [
+    "Open Sans"
+   ],
+   "confidence": "medium",
+   "reason": "Humanist sans with similar proportions; slightly more condensed with sturdier forms.",
+   "sources": [
+    "https://frontendresource.com/most-used-fonts-alternative-google-fonts/"
+   ]
+  },
+  "frutiger": {
+   "font": "Frutiger",
+   "nearest": "Hind",
+   "alternatives": [
+    "Open Sans"
+   ],
+   "confidence": "low",
+   "reason": "Both are open humanist sans-serifs; the claim rests on a single listing.",
+   "sources": [
+    "https://frontendresource.com/most-used-fonts-alternative-google-fonts/"
+   ]
+  },
+  "gillsans": {
+   "font": "Gill Sans",
+   "nearest": "Lato",
+   "alternatives": [
+    "Cabin"
+   ],
+   "confidence": "low",
+   "reason": "Lato is a humanist sans but lacks Gill's classical Roman proportions.",
+   "sources": [
+    "https://medium.com/@similarfonts/10-fonts-similar-to-gill-sans-9d2d935c92dc"
+   ]
+  },
+  "tradegothic": {
+   "font": "Trade Gothic",
+   "nearest": "Libre Franklin",
+   "alternatives": [
+    "Archivo"
+   ],
+   "confidence": "low",
+   "reason": "Both are American grotesques, but Libre Franklin is a Franklin Gothic revival and differs in detail.",
+   "sources": [
+    "https://frontendresource.com/most-used-fonts-alternative-google-fonts/"
+   ]
+  },
+  "trajanpro": {
+   "font": "Trajan Pro",
+   "nearest": "Cinzel",
+   "alternatives": [],
+   "confidence": "medium",
+   "reason": "Cinzel is inspired by classical Roman inscriptional capitals, the same source as Trajan.",
+   "sources": [
+    "https://fonts.google.com/specimen/Cinzel"
+   ]
+  },
+  "proximanova": {
+   "font": "Proxima Nova",
+   "nearest": "Montserrat",
+   "alternatives": [
+    "Figtree",
+    "Mulish"
+   ],
+   "confidence": "high",
+   "reason": "Montserrat is a classic stand-in (wider, more geometric); Figtree follows Proxima's lowered-crossbar capitals and is friendlier.",
+   "sources": [
+    "https://www.learnui.design/blog/proxima-nova-similar-fonts.html",
+    "https://fontalternatives.com/alternatives/proxima-nova/"
+   ]
+  },
+  "circular": {
+   "font": "Circular",
+   "nearest": "Figtree",
+   "alternatives": [
+    "Plus Jakarta Sans",
+    "DM Sans"
+   ],
+   "confidence": "medium",
+   "reason": "Figtree is listed as the closest Google Font to Circular, Plus Jakarta Sans as best overall.",
+   "sources": [
+    "https://www.learnui.design/blog/circular-similar-fonts.html"
+   ]
+  },
+  "avenirnext": {
+   "font": "Avenir Next",
+   "nearest": "Montserrat",
+   "alternatives": [
+    "Mulish",
+    "Nunito Sans"
+   ],
+   "confidence": "medium",
+   "reason": "Montserrat is rated the best Avenir replacement (wider); Mulish is neutral and geometric like Avenir.",
+   "sources": [
+    "https://www.learnui.design/blog/avenir-similar-fonts.html"
+   ]
+  },
+  "avenir": {
+   "font": "Avenir",
+   "nearest": "Montserrat",
+   "alternatives": [
+    "Mulish",
+    "Nunito Sans"
+   ],
+   "confidence": "medium",
+   "reason": "Montserrat is rated the best Avenir replacement (wider); Mulish is neutral and geometric like Avenir.",
+   "sources": [
+    "https://www.learnui.design/blog/avenir-similar-fonts.html"
+   ]
+  },
+  "sofiapro": {
+   "font": "Sofia Pro",
+   "nearest": "Poppins",
+   "alternatives": [
+    "Nunito Sans",
+    "Montserrat"
+   ],
+   "confidence": "medium",
+   "reason": "Poppins is called the closest Google Font (good for body text, less so for uppercase headlines).",
+   "sources": [
+    "https://similarfont.io/2-google-fonts-similar-to-sofia-pro",
+    "https://www.graphicpie.com/sofia-pro-similar-fonts/"
+   ]
+  },
+  "akkurat": {
+   "font": "Akkurat",
+   "nearest": "Work Sans",
+   "alternatives": [
+    "Inter"
+   ],
+   "confidence": "low",
+   "reason": "Work Sans is cited as a close match, from aggregator sites only.",
+   "sources": [
+    "https://frontendresource.com/most-used-fonts-alternative-google-fonts/"
+   ]
+  },
+  "helveticanow": {
+   "font": "Helvetica Now",
+   "nearest": "Inter",
+   "alternatives": [
+    "Arimo",
+    "Work Sans"
+   ],
+   "confidence": "medium",
+   "reason": "Inter is a neutral neo-grotesque close to Helvetica; it has a taller x-height and different details.",
+   "sources": [
+    "https://fontalternatives.com/alternatives/neue-haas-grotesk/"
+   ]
+  },
+  "neuehaasgrotesk": {
+   "font": "Neue Haas Grotesk",
+   "nearest": "Inter",
+   "alternatives": [
+    "Work Sans",
+    "Arimo"
+   ],
+   "confidence": "medium",
+   "reason": "Inter is rated the closest free match; more screen-tuned with a taller x-height.",
+   "sources": [
+    "https://fontalternatives.com/alternatives/neue-haas-grotesk/"
+   ]
+  },
+  "futura": {
+   "font": "Futura",
+   "nearest": "Jost",
+   "alternatives": [
+    "League Spartan",
+    "Josefin Sans"
+   ],
+   "confidence": "high",
+   "reason": "Jost is a Futura-inspired geometric sans and the consensus free alternative.",
+   "sources": [
+    "https://www.learnui.design/blog/futura-similar-fonts.html",
+    "https://fontalternatives.com/alternatives/futura/"
+   ]
+  },
+  "dinnext": {
+   "font": "DIN Next",
+   "nearest": "Barlow",
+   "alternatives": [
+    "Archivo",
+    "Roboto"
+   ],
+   "confidence": "medium",
+   "reason": "Barlow is repeatedly called the closest Google Font to DIN; slightly more rounded.",
+   "sources": [
+    "https://www.learnui.design/blog/din-similar-fonts.html",
+    "https://www.typewolf.com/din"
+   ]
+  },
+  "din": {
+   "font": "DIN",
+   "nearest": "Barlow",
+   "alternatives": [
+    "Archivo",
+    "Roboto"
+   ],
+   "confidence": "medium",
+   "reason": "Barlow is repeatedly called the closest Google Font to DIN; slightly more rounded.",
+   "sources": [
+    "https://www.learnui.design/blog/din-similar-fonts.html"
+   ]
+  },
+  "brandongrotesque": {
+   "font": "Brandon Grotesque",
+   "nearest": "Josefin Sans",
+   "alternatives": [
+    "Cabin",
+    "Lato"
+   ],
+   "confidence": "low",
+   "reason": "Hard to match: Cabin matches the g and rounded details, Josefin Sans the quirky geometric feel. None is exact.",
+   "sources": [
+    "https://www.typewolf.com/top-10-brandon-grotesque-alternatives"
+   ]
+  },
+  "gilroy": {
+   "font": "Gilroy",
+   "nearest": "Poppins",
+   "alternatives": [
+    "Manrope",
+    "Montserrat"
+   ],
+   "confidence": "medium",
+   "reason": "Poppins is consistently picked for Gilroy's geometric proportions; Manrope for its warmth.",
+   "sources": [
+    "https://similarfont.io/2-google-fonts-similar-to-gilroy",
+    "https://fontalternatives.com/alternatives/gilroy/"
+   ]
+  },
+  "graphik": {
+   "font": "Graphik",
+   "nearest": "Inter",
+   "alternatives": [
+    "Work Sans"
+   ],
+   "confidence": "low",
+   "reason": "Neutral grotesque; Inter is a judgement call with no direct source.",
+   "sources": []
+  },
+  "productsans": {
+   "font": "Product Sans",
+   "nearest": "Outfit",
+   "alternatives": [
+    "Plus Jakarta Sans",
+    "Urbanist"
+   ],
+   "confidence": "low",
+   "reason": "Roundups group these as clean geometric sans similar to Product Sans; no authoritative comparison.",
+   "sources": [
+    "https://www.typewolf.com/google-fonts"
+   ]
+  }
+ }
+}

@@ -1,0 +1,1574 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Sales Brand Styling",
+    "version": "0.16.0",
+    "description": "Extract a customer's brand, map a sales template to semantic roles, render it re-styled. Keep info.version equal to the VERSION file (check-release.mjs enforces this)."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8787"
+    }
+  ],
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
+  "paths": {
+    "/extract_brand_spec": {
+      "post": {
+        "operationId": "extract_brand_spec",
+        "summary": "Extract a BrandSpec from a URL or an uploaded file.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "file": {
+                    "$ref": "#/components/schemas/File"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "BrandSpec to be shown to the sales manager for confirmation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "brand_spec": {
+                      "$ref": "#/components/schemas/BrandSpec"
+                    },
+                    "hero_screenshot_png_base64": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "notes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "brand_style": {
+                      "$ref": "#/components/schemas/BrandStyle"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Local files and folders are NOT accepted over HTTP (a server must not read caller-chosen paths). Use `node cli.mjs extract <path>` locally, or upload a single file via `file`."
+      }
+    },
+    "/map_template": {
+      "post": {
+        "operationId": "map_template",
+        "summary": "Parse an HTML/PPTX template into semantic roles and attach brand targets.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "template",
+                  "brand_spec"
+                ],
+                "properties": {
+                  "template": {
+                    "$ref": "#/components/schemas/File"
+                  },
+                  "brand_spec": {
+                    "$ref": "#/components/schemas/BrandSpec"
+                  },
+                  "brand_style": {
+                    "$ref": "#/components/schemas/BrandStyle"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "IR. Items in ir.uncertain have target:null until the user confirms one.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "ir": {
+                      "type": "object"
+                    },
+                    "notes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "suggestions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "fonts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Human-readable font decisions (licence/substitution) to show the user."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/render_output": {
+      "post": {
+        "operationId": "render_output",
+        "summary": "Apply an approved IR; returns the file plus a preview to show before delivery.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "ir",
+                  "format"
+                ],
+                "properties": {
+                  "ir": {
+                    "type": "object"
+                  },
+                  "format": {
+                    "type": "string",
+                    "enum": [
+                      "html",
+                      "pptx"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Styled file + sandboxed preview + change list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "file": {
+                      "$ref": "#/components/schemas/File"
+                    },
+                    "preview": {
+                      "type": "object"
+                    },
+                    "changes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "fonts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Human-readable font decisions (licence/substitution) to show the user."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/draft_deck": {
+      "post": {
+        "operationId": "draft_deck",
+        "summary": "Draft a new editable PPTX in the customer's brand from a slide outline.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "brand_spec",
+                  "outline"
+                ],
+                "properties": {
+                  "brand_spec": {
+                    "$ref": "#/components/schemas/BrandSpec"
+                  },
+                  "outline": {
+                    "type": "object",
+                    "required": [
+                      "slides"
+                    ],
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "slides": {
+                        "type": "array",
+                        "maxItems": 60,
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "layout",
+                            "title"
+                          ],
+                          "properties": {
+                            "layout": {
+                              "type": "string",
+                              "enum": [
+                                "title",
+                                "section",
+                                "content",
+                                "two-column",
+                                "quote",
+                                "closing",
+                                "statement",
+                                "image",
+                                "chart",
+                                "highlight",
+                                "agenda",
+                                "at-a-glance",
+                                "big-number",
+                                "customer-context",
+                                "objectives",
+                                "problem-solution",
+                                "benefits",
+                                "before-after",
+                                "comparison",
+                                "options",
+                                "value-case",
+                                "process-steps",
+                                "process-flow",
+                                "swimlane",
+                                "service-description",
+                                "sla",
+                                "raci",
+                                "governance",
+                                "incident-and-change",
+                                "onboarding-transition",
+                                "roles-team",
+                                "tools-and-platforms",
+                                "kpi-reporting",
+                                "architecture",
+                                "integration-map",
+                                "environments",
+                                "tech-stack",
+                                "security-compliance",
+                                "migration-plan",
+                                "timeline",
+                                "roadmap",
+                                "risks",
+                                "next-steps",
+                                "scope",
+                                "status-summary",
+                                "case-study",
+                                "testimonial",
+                                "logo-wall",
+                                "team",
+                                "pricing",
+                                "investment",
+                                "qa-contact"
+                              ]
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "subtitle": {
+                              "type": "string",
+                              "description": "title, quote (attribution) and closing layouts"
+                            },
+                            "bullets": {
+                              "type": "array",
+                              "maxItems": 10,
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "content layout only"
+                            },
+                            "left": {
+                              "type": "array",
+                              "maxItems": 10,
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "two-column only"
+                            },
+                            "right": {
+                              "type": "array",
+                              "maxItems": 10,
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "two-column only"
+                            },
+                            "image": {
+                              "type": "string",
+                              "description": "image layout only: a brand asset id (png/jpg), or \"none\" to leave an empty PowerPoint picture placeholder for the user's own picture. Omit to use the best brand photograph."
+                            },
+                            "tone": {
+                              "enum": [
+                                "light",
+                                "dark"
+                              ],
+                              "description": "Background tone for content, two-column, statement and image slides. Omit to follow the customer's site rhythm."
+                            },
+                            "chart": {
+                              "type": "object",
+                              "description": "Native chart. Numbers come from the user; never invented. sample:true labels the chart as sample data.",
+                              "required": [
+                                "type",
+                                "labels",
+                                "series"
+                              ],
+                              "properties": {
+                                "type": {
+                                  "enum": [
+                                    "column",
+                                    "bar",
+                                    "stacked",
+                                    "line",
+                                    "area",
+                                    "pie",
+                                    "doughnut"
+                                  ]
+                                },
+                                "labels": {
+                                  "type": "array",
+                                  "maxItems": 24,
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "series": {
+                                  "type": "array",
+                                  "maxItems": 6,
+                                  "items": {
+                                    "type": "object",
+                                    "required": [
+                                      "name",
+                                      "values"
+                                    ],
+                                    "properties": {
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "values": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "number"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "unit": {
+                                  "type": "string",
+                                  "description": "%, $, \u20ac, \u00a3 or up to 4 letters"
+                                },
+                                "highlight": {
+                                  "description": "single series: the label (or position) to colour in the brand colour; the rest are muted"
+                                },
+                                "source": {
+                                  "type": "string",
+                                  "maxLength": 140
+                                },
+                                "sample": {
+                                  "type": "boolean"
+                                }
+                              }
+                            },
+                            "stats": {
+                              "type": "array",
+                              "maxItems": 4,
+                              "description": "highlight only: key-number tiles. Numbers come from the user; use [placeholders] otherwise.",
+                              "items": {
+                                "type": "object",
+                                "required": [
+                                  "value"
+                                ],
+                                "properties": {
+                                  "value": {
+                                    "type": "string",
+                                    "maxLength": 24
+                                  },
+                                  "label": {
+                                    "type": "string",
+                                    "maxLength": 60
+                                  }
+                                }
+                              }
+                            },
+                            "aside_title": {
+                              "type": "string",
+                              "description": "highlight only: heading of the side card"
+                            },
+                            "aside": {
+                              "type": "array",
+                              "maxItems": 10,
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "highlight only: bullets of the side card"
+                            }
+                          },
+                          "additionalProperties": true,
+                          "description": "Core layouts have the fields shown; the 42 catalog layouts (see POST /slide_catalog) each take their own fields, validated strictly (unknown fields, oversize text and wrong list sizes are refused with a clear message)."
+                        }
+                      },
+                      "no_highlight": {
+                        "type": "boolean",
+                        "description": "Whole-deck builds add a highlight slide with placeholder figures before the closing slide unless the outline already has one or this is true."
+                      }
+                    }
+                  },
+                  "logo": {
+                    "type": "object",
+                    "description": "Optional png/jpg/svg up to 2 MB, placed on title and closing layouts.",
+                    "required": [
+                      "filename",
+                      "content_base64"
+                    ],
+                    "properties": {
+                      "filename": {
+                        "type": "string"
+                      },
+                      "content_base64": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "brand_style": {
+                    "$ref": "#/components/schemas/BrandStyle"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "PPTX + approximate preview + slide list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "file": {
+                      "$ref": "#/components/schemas/File"
+                    },
+                    "preview": {
+                      "type": "object"
+                    },
+                    "changes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "fonts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Human-readable font decisions (licence/substitution) to show the user."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/template_deck": {
+      "post": {
+        "operationId": "template_deck",
+        "summary": "Branded PPTX template: all six layouts, one labelled sample slide each.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "brand_spec"
+                ],
+                "properties": {
+                  "brand_spec": {
+                    "$ref": "#/components/schemas/BrandSpec"
+                  },
+                  "logo": {
+                    "type": "object",
+                    "description": "Optional png/jpg/svg up to 2 MB, placed on title and closing layouts.",
+                    "required": [
+                      "filename",
+                      "content_base64"
+                    ],
+                    "properties": {
+                      "filename": {
+                        "type": "string"
+                      },
+                      "content_base64": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "brand_style": {
+                    "$ref": "#/components/schemas/BrandStyle"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "PPTX + approximate preview + change list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "file": {
+                      "$ref": "#/components/schemas/File"
+                    },
+                    "preview": {
+                      "type": "object"
+                    },
+                    "changes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "fonts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Human-readable font decisions (licence/substitution) to show the user."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/add_slides": {
+      "post": {
+        "operationId": "add_slides",
+        "summary": "Append on-brand slides to a deck made by template_deck/draft_deck; existing slides are untouched.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "brand_spec",
+                  "deck",
+                  "outline"
+                ],
+                "properties": {
+                  "brand_spec": {
+                    "$ref": "#/components/schemas/BrandSpec"
+                  },
+                  "deck": {
+                    "$ref": "#/components/schemas/File"
+                  },
+                  "outline": {
+                    "type": "object",
+                    "required": [
+                      "slides"
+                    ],
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "slides": {
+                        "type": "array",
+                        "maxItems": 60,
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "layout",
+                            "title"
+                          ],
+                          "properties": {
+                            "layout": {
+                              "type": "string",
+                              "enum": [
+                                "title",
+                                "section",
+                                "content",
+                                "two-column",
+                                "quote",
+                                "closing",
+                                "statement",
+                                "image",
+                                "chart",
+                                "highlight",
+                                "agenda",
+                                "at-a-glance",
+                                "big-number",
+                                "customer-context",
+                                "objectives",
+                                "problem-solution",
+                                "benefits",
+                                "before-after",
+                                "comparison",
+                                "options",
+                                "value-case",
+                                "process-steps",
+                                "process-flow",
+                                "swimlane",
+                                "service-description",
+                                "sla",
+                                "raci",
+                                "governance",
+                                "incident-and-change",
+                                "onboarding-transition",
+                                "roles-team",
+                                "tools-and-platforms",
+                                "kpi-reporting",
+                                "architecture",
+                                "integration-map",
+                                "environments",
+                                "tech-stack",
+                                "security-compliance",
+                                "migration-plan",
+                                "timeline",
+                                "roadmap",
+                                "risks",
+                                "next-steps",
+                                "scope",
+                                "status-summary",
+                                "case-study",
+                                "testimonial",
+                                "logo-wall",
+                                "team",
+                                "pricing",
+                                "investment",
+                                "qa-contact"
+                              ]
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "subtitle": {
+                              "type": "string",
+                              "description": "title, quote (attribution) and closing layouts"
+                            },
+                            "bullets": {
+                              "type": "array",
+                              "maxItems": 10,
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "content layout only"
+                            },
+                            "left": {
+                              "type": "array",
+                              "maxItems": 10,
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "two-column only"
+                            },
+                            "right": {
+                              "type": "array",
+                              "maxItems": 10,
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "two-column only"
+                            },
+                            "image": {
+                              "type": "string",
+                              "description": "image layout only: a brand asset id (png/jpg), or \"none\" to leave an empty PowerPoint picture placeholder for the user's own picture. Omit to use the best brand photograph."
+                            },
+                            "tone": {
+                              "enum": [
+                                "light",
+                                "dark"
+                              ],
+                              "description": "Background tone for content, two-column, statement and image slides. Omit to follow the customer's site rhythm."
+                            },
+                            "chart": {
+                              "type": "object",
+                              "description": "Native chart. Numbers come from the user; never invented. sample:true labels the chart as sample data.",
+                              "required": [
+                                "type",
+                                "labels",
+                                "series"
+                              ],
+                              "properties": {
+                                "type": {
+                                  "enum": [
+                                    "column",
+                                    "bar",
+                                    "stacked",
+                                    "line",
+                                    "area",
+                                    "pie",
+                                    "doughnut"
+                                  ]
+                                },
+                                "labels": {
+                                  "type": "array",
+                                  "maxItems": 24,
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "series": {
+                                  "type": "array",
+                                  "maxItems": 6,
+                                  "items": {
+                                    "type": "object",
+                                    "required": [
+                                      "name",
+                                      "values"
+                                    ],
+                                    "properties": {
+                                      "name": {
+                                        "type": "string"
+                                      },
+                                      "values": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "number"
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "unit": {
+                                  "type": "string",
+                                  "description": "%, $, \u20ac, \u00a3 or up to 4 letters"
+                                },
+                                "highlight": {
+                                  "description": "single series: the label (or position) to colour in the brand colour; the rest are muted"
+                                },
+                                "source": {
+                                  "type": "string",
+                                  "maxLength": 140
+                                },
+                                "sample": {
+                                  "type": "boolean"
+                                }
+                              }
+                            },
+                            "stats": {
+                              "type": "array",
+                              "maxItems": 4,
+                              "description": "highlight only: key-number tiles. Numbers come from the user; use [placeholders] otherwise.",
+                              "items": {
+                                "type": "object",
+                                "required": [
+                                  "value"
+                                ],
+                                "properties": {
+                                  "value": {
+                                    "type": "string",
+                                    "maxLength": 24
+                                  },
+                                  "label": {
+                                    "type": "string",
+                                    "maxLength": 60
+                                  }
+                                }
+                              }
+                            },
+                            "aside_title": {
+                              "type": "string",
+                              "description": "highlight only: heading of the side card"
+                            },
+                            "aside": {
+                              "type": "array",
+                              "maxItems": 10,
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "highlight only: bullets of the side card"
+                            }
+                          },
+                          "additionalProperties": true,
+                          "description": "Core layouts have the fields shown; the 42 catalog layouts (see POST /slide_catalog) each take their own fields, validated strictly (unknown fields, oversize text and wrong list sizes are refused with a clear message)."
+                        }
+                      },
+                      "no_highlight": {
+                        "type": "boolean",
+                        "description": "Whole-deck builds add a highlight slide with placeholder figures before the closing slide unless the outline already has one or this is true."
+                      }
+                    }
+                  },
+                  "brand_style": {
+                    "$ref": "#/components/schemas/BrandStyle"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "PPTX + approximate preview + change list.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "file": {
+                      "$ref": "#/components/schemas/File"
+                    },
+                    "preview": {
+                      "type": "object"
+                    },
+                    "changes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "fonts": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Human-readable font decisions (licence/substitution) to show the user."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/brand_css": {
+      "post": {
+        "operationId": "brand_css",
+        "summary": "CSS block (variables, heading style, .brand-* classes incl. image heroes/logo) for an HTML artifact.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "brand_spec"
+                ],
+                "properties": {
+                  "brand_spec": {
+                    "$ref": "#/components/schemas/BrandSpec"
+                  },
+                  "brand_style": {
+                    "$ref": "#/components/schemas/BrandStyle"
+                  },
+                  "fonts": {
+                    "type": "string",
+                    "enum": [
+                      "embed",
+                      "google-import"
+                    ],
+                    "description": "embed = inline latin woff2 of the Google Fonts in use (self-contained, no request to Google at view time); google-import = @import from fonts.googleapis.com (the viewer's browser contacts Google). Omit for neither."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "CSS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "css": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/brand_board": {
+      "post": {
+        "operationId": "brand_board",
+        "summary": "Visual brand board (HTML) for a non-designer to confirm: sample slides, colours, fonts, images, with C1/F1/I1 references.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "brand_spec"
+                ],
+                "properties": {
+                  "brand_spec": {
+                    "$ref": "#/components/schemas/BrandSpec"
+                  },
+                  "brand_style": {
+                    "$ref": "#/components/schemas/BrandStyle"
+                  },
+                  "site_screenshot_base64": {
+                    "type": "string",
+                    "description": "Optional PNG (<3 MB) shown for comparison."
+                  },
+                  "artifact": {
+                    "type": "boolean",
+                    "description": "true = fragment without doctype/html/head/body, for publishing as an Artifact."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "HTML",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "html": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/html_page": {
+      "post": {
+        "operationId": "html_page",
+        "summary": "HTML page in the customer's style. mode=prototype uses their measured components (nav, buttons, cards, footer); mode=onepager uses their design language only.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "brand_spec",
+                  "blocks"
+                ],
+                "properties": {
+                  "brand_spec": {
+                    "$ref": "#/components/schemas/BrandSpec"
+                  },
+                  "brand_style": {
+                    "$ref": "#/components/schemas/BrandStyle"
+                  },
+                  "blocks": {
+                    "type": "array",
+                    "maxItems": 40,
+                    "description": "Page sections: nav, hero, statement, feature, cards, text, quote, cta, form, footer. Strings are escaped; hrefs may be #anchors or https; images are brand asset ids.",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "type"
+                      ],
+                      "properties": {
+                        "type": {
+                          "enum": [
+                            "nav",
+                            "hero",
+                            "statement",
+                            "feature",
+                            "cards",
+                            "text",
+                            "quote",
+                            "cta",
+                            "form",
+                            "footer",
+                            "chart",
+                            "panel"
+                          ]
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "subtitle": {
+                          "type": "string"
+                        },
+                        "text": {
+                          "type": "string"
+                        },
+                        "image": {
+                          "type": "string"
+                        },
+                        "tone": {
+                          "enum": [
+                            "light",
+                            "dark"
+                          ]
+                        },
+                        "ctas": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "href": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "links": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "columns": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "fields": {
+                          "type": "array",
+                          "items": {
+                            "type": "object"
+                          }
+                        },
+                        "chart": {
+                          "type": "object",
+                          "description": "Native chart. Numbers come from the user; never invented. sample:true labels the chart as sample data.",
+                          "required": [
+                            "type",
+                            "labels",
+                            "series"
+                          ],
+                          "properties": {
+                            "type": {
+                              "enum": [
+                                "column",
+                                "bar",
+                                "stacked",
+                                "line",
+                                "area",
+                                "pie",
+                                "doughnut"
+                              ]
+                            },
+                            "labels": {
+                              "type": "array",
+                              "maxItems": 24,
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "series": {
+                              "type": "array",
+                              "maxItems": 6,
+                              "items": {
+                                "type": "object",
+                                "required": [
+                                  "name",
+                                  "values"
+                                ],
+                                "properties": {
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "values": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "number"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "unit": {
+                              "type": "string",
+                              "description": "%, $, \u20ac, \u00a3 or up to 4 letters"
+                            },
+                            "highlight": {
+                              "description": "single series: the label (or position) to colour in the brand colour; the rest are muted"
+                            },
+                            "source": {
+                              "type": "string",
+                              "maxLength": 140
+                            },
+                            "sample": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "mode": {
+                    "enum": [
+                      "prototype",
+                      "onepager"
+                    ]
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "fonts": {
+                    "enum": [
+                      "embed",
+                      "google-import"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "HTML",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "html": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/html_components": {
+      "post": {
+        "operationId": "html_components",
+        "summary": "Reference sheet of the customer's measured components, to confirm they look right.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "brand_spec"
+                ],
+                "properties": {
+                  "brand_spec": {
+                    "$ref": "#/components/schemas/BrandSpec"
+                  },
+                  "brand_style": {
+                    "$ref": "#/components/schemas/BrandStyle"
+                  },
+                  "mode": {
+                    "enum": [
+                      "prototype",
+                      "onepager"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "HTML",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "html": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/slide_catalog": {
+      "post": {
+        "operationId": "slide_catalog",
+        "summary": "The slide catalog: every catalog slide type with its summary and allowed fields, and the ready-made storylines (slide sequences).",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Catalog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "plugin_version": {
+                      "type": "string"
+                    },
+                    "catalog": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "storylines": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "File": {
+        "type": "object",
+        "required": [
+          "filename",
+          "content_base64"
+        ],
+        "properties": {
+          "filename": {
+            "type": "string"
+          },
+          "content_base64": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string"
+          }
+        }
+      },
+      "BrandSpec": {
+        "type": "object",
+        "required": [
+          "schema_version",
+          "colors",
+          "typography"
+        ],
+        "description": "See schema/brand-spec.schema.json (schema_version 1.1; 1.0 still accepted). typography.*_font is the font actually used after the font policy.",
+        "properties": {
+          "schema_version": {
+            "type": "string",
+            "enum": [
+              "1.0",
+              "1.1"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "colors": {
+            "type": "object",
+            "required": [
+              "primary"
+            ],
+            "properties": {
+              "primary": {
+                "type": "string"
+              },
+              "secondary": {
+                "type": "string"
+              },
+              "accents": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "neutrals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "surfaces": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "hex": {
+                      "type": "string"
+                    },
+                    "share": {
+                      "type": "number"
+                    }
+                  }
+                },
+                "description": "Colours that actually cover the page (screenshot area, or CSS backgrounds). Drives how slides use colour."
+              }
+            }
+          },
+          "typography": {
+            "type": "object",
+            "required": [
+              "heading_font",
+              "body_font"
+            ],
+            "properties": {
+              "heading_font": {
+                "type": "string"
+              },
+              "body_font": {
+                "type": "string"
+              },
+              "scale": {
+                "type": "string"
+              },
+              "source_fonts": {
+                "type": "object"
+              },
+              "font_resolution": {
+                "type": "object",
+                "description": "Per role: requested, used, status (google|system|user-licensed|substituted|default), license, basis, alternatives, web_fallback, note."
+              }
+            }
+          },
+          "spacing_unit": {
+            "type": "string"
+          },
+          "logo_asset": {
+            "type": "string"
+          },
+          "tone_keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "imagery_style": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "object"
+          }
+        }
+      },
+      "BrandStyle": {
+        "type": "object",
+        "description": "BrandStyle (style_version 1.0): see schema/brand-style.schema.json. Optional; adds text style, image backgrounds, placed imagery.",
+        "required": [
+          "style_version"
+        ],
+        "properties": {
+          "style_version": {
+            "type": "string",
+            "enum": [
+              "1.0",
+              "1.1"
+            ]
+          },
+          "text": {
+            "type": "object"
+          },
+          "backgrounds": {
+            "type": "object"
+          },
+          "placements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "asset": {
+                  "type": "string"
+                },
+                "layout": {
+                  "type": "string"
+                },
+                "position": {
+                  "type": "string",
+                  "enum": [
+                    "right",
+                    "left",
+                    "corner-br",
+                    "corner-bl",
+                    "corner-tr",
+                    "band-bottom"
+                  ]
+                }
+              }
+            }
+          },
+          "html_backgrounds": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "asset": {
+                  "type": "string"
+                },
+                "selector": {
+                  "type": "string"
+                },
+                "tone": {
+                  "type": "string",
+                  "enum": [
+                    "dark"
+                  ]
+                }
+              }
+            }
+          },
+          "assets": {
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object"
+            }
+          },
+          "design": {
+            "type": "object",
+            "description": "Layout feel measured on the customer's live page: align, density, imagery, heading_scale, corners.",
+            "properties": {
+              "align": {
+                "enum": [
+                  "left",
+                  "center"
+                ]
+              },
+              "density": {
+                "enum": [
+                  "airy",
+                  "balanced",
+                  "dense"
+                ]
+              },
+              "imagery": {
+                "enum": [
+                  "image-led",
+                  "balanced",
+                  "text-led"
+                ]
+              },
+              "heading_scale": {
+                "enum": [
+                  "display",
+                  "standard",
+                  "compact"
+                ]
+              },
+              "corners": {
+                "enum": [
+                  "square",
+                  "soft",
+                  "pill"
+                ]
+              },
+              "measured": {
+                "type": "object"
+              },
+              "rhythm": {
+                "type": "object",
+                "description": "Visual rhythm of the site, one entry per screen: pattern (alternating|dark|light|mixed), tones, imagery."
+              }
+            }
+          },
+          "system": {
+            "type": "object",
+            "description": "BrandSystem 1.0: the site's real components measured in a browser (container, section spacing, type scale, nav, buttons, cards, input, footer). Needed for html prototypes."
+          }
+        }
+      }
+    }
+  }
+}

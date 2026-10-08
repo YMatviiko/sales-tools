@@ -1,0 +1,14 @@
+{
+  "name": "sales-tools",
+  "description": "Sales team plugins",
+  "owner": {
+    "name": "EPAM"
+  },
+  "plugins": [
+    {
+      "name": "sales-brand-styling",
+      "source": "./plugins/sales-brand-styling",
+      "description": "On-brand decks, HTML prototypes and one-pagers from a customer's website or brand files."
+    }
+  ]
+}

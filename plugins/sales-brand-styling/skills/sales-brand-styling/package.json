@@ -1,0 +1,21 @@
+{
+  "name": "sales-brand-styling",
+  "version": "0.16.0",
+  "description": "DIAL plugin backend: extract a customer's brand, map a sales template, render it re-styled.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "setup": "npm install && node cli.mjs doctor",
+    "doctor": "node cli.mjs doctor",
+    "demo": "node cli.mjs demo --open",
+    "sync-plugin-version": "node scripts/sync-plugin-version.mjs"
+  },
+  "dependencies": {
+    "jszip": "3.10.1",
+    "pdfjs-dist": "4.10.38",
+    "pptxgenjs": "3.12.0",
+    "playwright-core": "1.49.1"
+  }
+}

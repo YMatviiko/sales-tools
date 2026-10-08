@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "brand-spec",
+  "title": "BrandSpec",
+  "description": "Customer visual brand identity. schema_version changes only as a deliberate, versioned event (see CHANGELOG).",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "colors",
+    "typography"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "1.0",
+        "1.1"
+      ],
+      "description": "1.1 adds typography.source_fonts and typography.font_resolution (additive). 1.0 documents still validate."
+    },
+    "source": {
+      "type": "string",
+      "description": "URL or filename the spec was extracted from."
+    },
+    "colors": {
+      "type": "object",
+      "required": [
+        "primary"
+      ],
+      "properties": {
+        "primary": {
+          "$ref": "#/$defs/hex"
+        },
+        "secondary": {
+          "$ref": "#/$defs/hex"
+        },
+        "accents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hex"
+          }
+        },
+        "neutrals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hex"
+          }
+        },
+        "surfaces": {
+          "type": "array",
+          "description": "Colours that actually cover the page, by area share (from a screenshot or CSS backgrounds). Drives how slides use colour: a neutral-first brand gets a neutral title slide with its colour as the accent.",
+          "items": {
+            "type": "object",
+            "required": [
+              "hex",
+              "share"
+            ],
+            "properties": {
+              "hex": {
+                "$ref": "#/$defs/hex"
+              },
+              "share": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "required": [
+        "heading_font",
+        "body_font"
+      ],
+      "properties": {
+        "heading_font": {
+          "type": "string",
+          "description": "Font actually used for output (after the font policy: customer font only if licence-free, else closest Google Font)."
+        },
+        "body_font": {
+          "type": "string"
+        },
+        "scale": {
+          "type": "string"
+        },
+        "source_fonts": {
+          "type": "object",
+          "description": "Fonts found in the customer's materials, before the policy.",
+          "properties": {
+            "heading": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            }
+          }
+        },
+        "font_resolution": {
+          "type": "object",
+          "properties": {
+            "heading": {
+              "type": "object",
+              "properties": {
+                "requested": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "used": {
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "google",
+                    "system",
+                    "user-licensed",
+                    "substituted",
+                    "default"
+                  ]
+                },
+                "license": {
+                  "type": "string"
+                },
+                "basis": {
+                  "enum": [
+                    "exact",
+                    "alias",
+                    "system",
+                    "user",
+                    "curated",
+                    "heuristic",
+                    "default",
+                    "chosen"
+                  ]
+                },
+                "alternatives": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "web_fallback": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "string",
+                  "description": "Why a proprietary customer font is used: supplied by the customer, installed on this computer, or confirmed by the user."
+                },
+                "needs_answer": {
+                  "type": "boolean",
+                  "description": "Deprecated, informational only. Font choice is never put to the user."
+                }
+              }
+            },
+            "body": {
+              "type": "object",
+              "properties": {
+                "requested": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "used": {
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "google",
+                    "system",
+                    "user-licensed",
+                    "substituted",
+                    "default"
+                  ]
+                },
+                "license": {
+                  "type": "string"
+                },
+                "basis": {
+                  "enum": [
+                    "exact",
+                    "alias",
+                    "system",
+                    "user",
+                    "curated",
+                    "heuristic",
+                    "default",
+                    "chosen"
+                  ]
+                },
+                "alternatives": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "web_fallback": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "string",
+                  "description": "Why a proprietary customer font is used: supplied by the customer, installed on this computer, or confirmed by the user."
+                },
+                "needs_answer": {
+                  "type": "boolean",
+                  "description": "Deprecated, informational only. Font choice is never put to the user."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "spacing_unit": {
+      "type": "string"
+    },
+    "logo_asset": {
+      "type": "string"
+    },
+    "tone_keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "imagery_style": {
+      "type": "string"
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Per-field origin: explicit (read from a style guide), css, histogram, heuristic. Lets the checkpoint show what was inferred.",
+      "additionalProperties": {
+        "enum": [
+          "explicit",
+          "css",
+          "computed",
+          "screenshot",
+          "histogram",
+          "heuristic"
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    }
+  }
+}

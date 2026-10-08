@@ -1,0 +1,16 @@
+{
+  "name": "sales-brand-styling",
+  "displayName": "Sales Brand Styling",
+  "version": "0.16.0",
+  "description": "Turns a customer's website, brand guide or files into on-brand PowerPoint decks, HTML prototypes and one-pagers in their visual style. Sales managers just describe what they need.",
+  "author": {
+    "name": "EPAM"
+  },
+  "keywords": [
+    "sales",
+    "branding",
+    "powerpoint",
+    "html",
+    "design"
+  ]
+}
