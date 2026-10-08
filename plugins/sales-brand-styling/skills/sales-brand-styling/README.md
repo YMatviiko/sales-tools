@@ -1,9 +1,8 @@
 # sales-brand-styling
 
-DIAL plugin for sales managers: extract a customer's brand from a URL or style guide, then
-re-style the manager's own HTML or PPTX template to match. A Node backend (three deterministic
-endpoints) plus a thin skill (`SKILL.md`) that runs the conversation and approval checkpoints.
-Design and rationale: `../sales-plugin.md`.
+Claude Code skill (shipped as a plugin) for sales managers: extract a customer's brand from a URL, style guide, folder or file, confirm it on a visual
+brand board, then build on-brand PowerPoint decks, HTML prototypes and one-pagers. A Node backend plus the skill (`SKILL.md`) that runs the conversation.
+The full list of workflows is in the repo's top-level README.
 
 ## For sales managers
 
